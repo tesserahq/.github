@@ -24,6 +24,8 @@ It powers services like:
 - `vaulta` – file storage and signing
 - `sendly` – notifications and events
 - `custos` – RBAC and authorization
+- `looply` – Mailing lists and contacts
+- `orcha` – Workflows
 
 ## 🧩 Why the name “Tessera”?
 
@@ -35,3 +37,44 @@ This name reflects the philosophy behind the framework:
 - **Modularity**: each service stands on its own.
 - **Harmony**: together, they create a cohesive system.
 - **Craftsmanship**: like a mosaic, it’s designed with care and precision.
+
+## 🧩 Intentional Modularity and Service Boundaries
+
+Tessera’s architecture — many small services, each responsible for exactly one thing — is intentional.
+
+This framework started as an AI-first experiment built by a very small team: one backend engineer and one frontend engineer. Early on, we discovered a critical constraint when working with AI models: smaller, well-defined contexts produce dramatically better results than large, monolithic codebases. Splitting responsibilities into focused services allowed AI tools to reason more accurately, generate safer changes, and operate with far less ambiguity.
+
+As a result:
+* Each service does one thing, and only one thing
+* Each service has its own management portal
+* Each codebase stays small, explicit, and easy to reason about
+
+This structure makes the system easier to evolve over time. Improving or replacing a service rarely requires understanding the entire platform. It also significantly lowers the barrier to onboarding new contributors, since there is no massive shared context to absorb before being productive.
+
+Trade-offs and Why They’re Acceptable
+
+Yes, this approach introduces overhead:
+
+* More repositories
+* More services
+* More web apps and deployments
+
+This is a real cost, and it’s acknowledged.
+
+However, modern AI tooling changes the equation. With tools like Claude Code and similar agents, it is now practical to perform coordinated changes across multiple repositories using a single prompt. To go further, we built our own MCP (Model Context Protocol) to orchestrate multi-service workflows and reduce friction when working across the ecosystem.
+
+In practice, this means:
+
+* Cross-repo refactors are fast
+* Repetitive work is automated
+* Cognitive load stays low, even as the system grows
+
+Philosophy Summary
+
+Tessera optimizes for:
+
+* Small contexts over large abstractions
+* Clear boundaries over convenience
+* Long-term adaptability over short-term simplicity
+
+The result is a system that scales with people, AI, and change — without collapsing under its own complexity.

@@ -26,6 +26,7 @@ It powers services like:
 - `custos` – RBAC and authorization
 - `looply` – Mailing lists and contacts
 - `orcha` – Workflows
+- `eventa` – Events and activity logs
 
 ## 🧩 Why the name “Tessera”?
 

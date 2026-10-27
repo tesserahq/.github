@@ -1,0 +1,43 @@
+name: Portal tests
+
+on:
+  workflow_call:
+    inputs:
+      bun-version:
+        description: Bun version from the calling portal's .tool-versions file
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: ${{ inputs.bun-version }}
+
+      - name: Check for a test script
+        id: test-script
+        shell: bash
+        run: |
+          if node -e 'process.exit(Number(!require("./package.json").scripts?.test))'; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "No test script is defined in package.json; tests were skipped." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Install dependencies
+        if: steps.test-script.outputs.available == 'true'
+        run: bun install --frozen-lockfile
+
+      - name: Run tests
+        if: steps.test-script.outputs.available == 'true'
+        run: bun run test
